@@ -1,26 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./ProductsList.module.scss";
-import { Select, Card } from "antd";
+import { Select, Card, Input } from "antd";
 
 import products_json from "../assets/products_json.json";
 
 const { Meta } = Card;
+const { Search } = Input;
+const { Option } = Select;
 const ProductsList = () => {
   // state
   const [products, setProducts] = React.useState(products_json);
+  const [textFilter, setTextfilter] = React.useState("");
+  const [typeFilter, setTypefilter] = React.useState("All");
 
-  const { Option } = Select;
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
-    if (value == "All") {
-      setProducts(products_json);
-    } else {
-      setProducts(products_json.filter((x) => x.type == value));
-    }
+    setTypefilter(value);
   };
+  const handleSearch = (value) => {
+    setTextfilter(value);
+  };
+
+  useEffect(() => {
+    if (typeFilter == "All") {
+      setProducts(
+        products_json.filter(
+          (x) =>
+            x.price.indexOf(textFilter) != -1 ||
+            x.productName.indexOf(textFilter) != -1 ||
+            x.type.indexOf(textFilter) != -1
+        )
+      );
+    } else {
+      setProducts(
+        products_json.filter(
+          (x) =>
+            x.type == typeFilter &&
+            (x.price.indexOf(textFilter) != -1 ||
+              x.productName.indexOf(textFilter) != -1 ||
+              x.type.indexOf(textFilter) != -1)
+        )
+      );
+    }
+  }, [textFilter, typeFilter]);
   return (
     <div className={styles.ProductsList} data-testid="ProductsList">
+      <Search
+        placeholder="Plz enter search text (Case sensitive)"
+        enterButton="Search"
+
+        onSearch={handleSearch}
+      />
       <div className={styles.filter_container}>
         <p className={styles.filter_container_title}>Filter by</p>
         <Select
@@ -29,6 +59,7 @@ const ProductsList = () => {
             width: 120,
             marginRight: "30px",
           }}
+          value={typeFilter}
           onChange={handleChange}
         >
           <Option value="All">All</Option>
@@ -42,13 +73,16 @@ const ProductsList = () => {
         {products.map((producct) => {
           return (
             <Card
+              key={producct.index}
               hoverable
               className={styles.product}
               cover={
                 <img alt={producct.productName} src={producct.productImage} />
               }
             >
-              {producct.isSale ? <div className={styles.sale}>sale </div> : null}
+              {producct.isSale ? (
+                <div className={styles.sale}>sale </div>
+              ) : null}
               <Meta title={producct.productName + " : " + producct.price} />
             </Card>
           );
