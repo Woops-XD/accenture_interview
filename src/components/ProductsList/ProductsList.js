@@ -1,8 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./ProductsList.module.scss";
-import { Select } from "antd";
+import { Select, Card } from "antd";
+
+import products_json from '../assets/products_json.json'
+
+const { Meta } = Card;
 const ProductsList = () => {
+
+  // state 
+  const [products, setProducts] = React.useState(products_json);
+
   const { Option } = Select;
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -17,6 +25,7 @@ const ProductsList = () => {
           defaultValue="All"
           style={{
             width: 120,
+            marginRight: '30px'
           }}
           onChange={handleChange}
         >
@@ -27,7 +36,26 @@ const ProductsList = () => {
           <Option value="Cider">Cider</Option>
         </Select>
       </div>
-    </div>
+
+
+      <div className={styles.products_container}>
+        {products.map((producct) => {
+          return (
+            <Card
+              hoverable
+              className={styles.product}
+              cover={<img alt={producct.productName} src={producct.productImage} />}
+            >
+              <div className={styles.sale}>sale </div>
+              <Meta title={producct.productName + " : " + producct.price} />
+            </Card>
+          )
+        })}
+
+
+
+      </div>
+    </div >
   );
 };
 
