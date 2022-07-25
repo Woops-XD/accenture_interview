@@ -48,7 +48,7 @@ const ProductsList = () => {
                 <img alt={producct.productName} src={producct.productImage} />
               }
             >
-              <div className={styles.sale}>sale </div>
+              {producct.isSale ? <div className={styles.sale}>sale </div> : null}
               <Meta title={producct.productName + " : " + producct.price} />
             </Card>
           );
