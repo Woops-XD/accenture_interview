@@ -1,0 +1,38 @@
+.ProductsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter_container {
+  margin-top: 5vh;
+  width: 90%;
+  height: 60px;
+  background-color: azure;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  border-width: 2px;
+  border-style: solid;
+  &_title {
+    text-align: center;
+    margin: 0 5px;
+    font-size: large;
+    font-weight: bold;
+  }
+}
+// .filter_container {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   text-align: center;
+//   margin: 0 20px;
+
+//   &_title {
+//     text-align: center;
+//     margin: 0 5px;
+//     font-size: large;
+//     font-weight: bold;
+//   }
+// }
