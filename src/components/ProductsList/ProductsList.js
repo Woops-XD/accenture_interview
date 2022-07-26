@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import styles from "./ProductsList.module.scss";
 import { Select, Card, Input } from "antd";
-
 import products_json from "../assets/products_json.json";
 
 const { Meta } = Card;
@@ -21,7 +19,7 @@ const ProductsList = () => {
     setTextfilter(value);
   };
 
-  useEffect(() => {
+  const handleFilter = (text, type) => {
     if (typeFilter == "All") {
       setProducts(
         products_json.filter(
@@ -42,14 +40,19 @@ const ProductsList = () => {
         )
       );
     }
+  };
+  // watch the type and text to do a filter
+  useEffect(() => {
+    handleFilter(textFilter, typeFilter);
   }, [textFilter, typeFilter]);
+
   return (
     <div className={styles.ProductsList} data-testid="ProductsList">
       <Search
         placeholder="Plz enter search text (Case sensitive)"
         enterButton="Search"
-
         onSearch={handleSearch}
+        data-testid="textFilter"
       />
       <div className={styles.filter_container}>
         <p className={styles.filter_container_title}>Filter by</p>
@@ -61,10 +64,13 @@ const ProductsList = () => {
           }}
           value={typeFilter}
           onChange={handleChange}
+          data-testid="typeFilter"
         >
           <Option value="All">All</Option>
           <Option value="Beer">Beer</Option>
-          <Option value="Wine">Wine</Option>
+          <Option data-testid="select-option" value="Wine">
+            Wine
+          </Option>
           <Option value="Spirits">Spirits</Option>
           <Option value="Cider">Cider</Option>
         </Select>
