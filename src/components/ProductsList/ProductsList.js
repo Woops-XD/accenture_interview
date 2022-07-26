@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./ProductsList.module.scss";
 import { Select, Card, Input } from "antd";
-import products_json from "../assets/products_json.json";
+import products_json from "../../assets/products_json.json";
 
 const { Meta } = Card;
 const { Search } = Input;
@@ -19,30 +19,31 @@ const ProductsList = () => {
     setTextfilter(value);
   };
 
-  const handleFilter = (text, type) => {
-    if (typeFilter == "All") {
-      setProducts(
-        products_json.filter(
-          (x) =>
-            x.price.indexOf(textFilter) != -1 ||
-            x.productName.indexOf(textFilter) != -1 ||
-            x.type.indexOf(textFilter) != -1
-        )
-      );
-    } else {
-      setProducts(
-        products_json.filter(
-          (x) =>
-            x.type == typeFilter &&
-            (x.price.indexOf(textFilter) != -1 ||
-              x.productName.indexOf(textFilter) != -1 ||
-              x.type.indexOf(textFilter) != -1)
-        )
-      );
-    }
-  };
+
   // watch the type and text to do a filter
   useEffect(() => {
+    const handleFilter = (text, type) => {
+      if (typeFilter === "All") {
+        setProducts(
+          products_json.filter(
+            (x) =>
+              x.price.indexOf(textFilter) !== -1 ||
+              x.productName.indexOf(textFilter) !== -1 ||
+              x.type.indexOf(textFilter) !== -1
+          )
+        );
+      } else {
+        setProducts(
+          products_json.filter(
+            (x) =>
+              x.type === typeFilter &&
+              (x.price.indexOf(textFilter) !== -1 ||
+                x.productName.indexOf(textFilter) !== -1 ||
+                x.type.indexOf(textFilter) !== -1)
+          )
+        );
+      }
+    };
     handleFilter(textFilter, typeFilter);
   }, [textFilter, typeFilter]);
 
@@ -98,8 +99,8 @@ const ProductsList = () => {
   );
 };
 
-ProductsList.propTypes = {};
+// ProductsList.propTypes = {};
 
-ProductsList.defaultProps = {};
+// ProductsList.defaultProps = {};
 
 export default ProductsList;
